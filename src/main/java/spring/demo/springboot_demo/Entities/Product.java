@@ -13,26 +13,36 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS")
-public class User {
+@Table(name = "PRODUCTS")
+public class Product {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
 
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "EMAIL", unique = true)
-    private String email;
-
-    @Column(name = "PASSWORD")
-    private String password;
-
-    @Column(name = "ACCESS_TOKEN")
-    private String accessToken;
-
     @Column(name = "CREATED")
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp created;
+
+    @Column(name = "PRICE")
+    private String price;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID")
+    private ProductGroup productGroup;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID")
+    private User user;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
