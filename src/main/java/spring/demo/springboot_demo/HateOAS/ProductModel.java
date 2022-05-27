@@ -1,12 +1,13 @@
 package spring.demo.springboot_demo.HateOAS;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
 import spring.demo.springboot_demo.Entities.Product;
 import spring.demo.springboot_demo.Entities.ProductGroup;
 
 import java.util.Optional;
 
-public class ProductModel {
+public class ProductModel extends RepresentationModel<ProductModel> {
     @JsonProperty
     public long id;
     public String name;
