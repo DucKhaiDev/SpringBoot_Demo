@@ -1,12 +1,18 @@
 package spring.demo.springboot_demo.Controllers;
 
 import lombok.Getter;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import spring.demo.springboot_demo.Entities.Product;
+import spring.demo.springboot_demo.Entities.ProductImage;
 import spring.demo.springboot_demo.HateOAS.ProductModel;
 import spring.demo.springboot_demo.Services.EcommerceService;
 import spring.demo.springboot_demo.Storage.StorageService;
@@ -99,5 +105,34 @@ public class ProductController extends CoreController {
         return ecommerceService.saveProduct(updatedProduct);
     }
 
+    @GetMapping("/image/{id}")
+    @ResponseBody
+    public ResponseEntity<Resource> serverFile(@PathVariable("id") String id) {
+        Session session = sessionFactory.openSession();
+        ProductImage image = (ProductImage) session.get(ProductImage.class, Long.parseLong(id));
+        session.close();
 
+        String path = "product-image/" + image.getProduct().getId() + "/";
+
+        Resource file = storageService.loadAsResource(path + image.getPath());
+        String mimeType = "image/png";
+        try {
+            mimeType = file.getURL().openConnection().getContentType();
+        } catch (Exception e) {
+            System.out.println("Can't get file mimeType. " + e.getMessage());
+        }
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, mimeType)
+                .body(file);
+    }
+
+    @PostMapping("/{id}/uploadimage")
+    public String handleFileUpload(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) {
+        String path = "/product-images/" + id;
+        String filename = storageService.store(file, path);
+
+        return ecommerceService.addProductImage(id, filename);
+    }
 }

@@ -1,13 +1,14 @@
 package spring.demo.springboot_demo.HateOAS;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.hateoas.RepresentationModel;
 import spring.demo.springboot_demo.Entities.Order;
 import spring.demo.springboot_demo.Entities.OrderItem;
 
 import java.util.List;
 import java.util.Optional;
 
-public class OrderModel {
+public class OrderModel extends RepresentationModel<GroupModel> {
     @JsonProperty
     public long id;
     public String name;

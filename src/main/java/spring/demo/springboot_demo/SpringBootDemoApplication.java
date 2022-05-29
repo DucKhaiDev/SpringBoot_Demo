@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.Validator;
 import redis.clients.jedis.Jedis;
+import spring.demo.springboot_demo.Cache.Cache;
+import spring.demo.springboot_demo.Cache.RedisCache;
+import spring.demo.springboot_demo.Storage.StorageService;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -26,12 +29,12 @@ public class SpringBootDemoApplication {
         this.entityManagerFactory = entityManagerFactory;
     }
 
-    /*@Bean
+    @Bean
     CommandLineRunner init(StorageService storageService) {
         return (args) -> {
             storageService.init();
         };
-    }*/
+    }
 
     @Bean
     public SessionFactory sessionFactory() {
@@ -69,7 +72,7 @@ public class SpringBootDemoApplication {
         return jedis;
     }
 
-    /*public Cache cacheObject(ObjectMapper objectMapper) {
+    public Cache cacheObject(ObjectMapper objectMapper) {
         return new RedisCache(objectMapper, redisCliFactory());
-    }*/
+    }
 }
