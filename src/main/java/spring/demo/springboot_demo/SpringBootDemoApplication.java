@@ -1,6 +1,7 @@
 package spring.demo.springboot_demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import spring.demo.springboot_demo.Storage.StorageService;
 import javax.persistence.EntityManagerFactory;
 
 @SpringBootApplication
+@Getter
 public class SpringBootDemoApplication {
     private EntityManagerFactory entityManagerFactory;
 
@@ -25,7 +27,7 @@ public class SpringBootDemoApplication {
     }
 
     @Autowired
-    public SpringBootDemoApplication(EntityManagerFactory entityManagerFactory) {
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
@@ -72,6 +74,8 @@ public class SpringBootDemoApplication {
         return jedis;
     }
 
+    @Bean
+    @Autowired
     public Cache cacheObject(ObjectMapper objectMapper) {
         return new RedisCache(objectMapper, redisCliFactory());
     }

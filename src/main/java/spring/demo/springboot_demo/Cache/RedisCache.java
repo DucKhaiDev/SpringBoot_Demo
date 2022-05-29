@@ -3,15 +3,12 @@ package spring.demo.springboot_demo.Cache;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
